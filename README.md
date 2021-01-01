@@ -107,6 +107,11 @@ Note: After changes in your controllers, dont forget to call `python manage.py w
 
 # Installing Controllers from other Apps
 
+When you have a modular structure in your modules (or even install third-party modules) you may come accross the case where you want to
+include controllers from other modules into your entrypoint (`application.js`).
+There are two approaches. One is that the other modules provide npm packages and the other is to use relative imports to specify the path of the controllers js-file relative to your entrypoint.
+
+The `install_controller` helps you in the second case and does all necessary changes in your `application.js` file.
 If one app defines a Controller (from the structure defines above) and it should be added to an entrypoint in another app, one can use the `install_controller` command.
 The Syntax is
 
