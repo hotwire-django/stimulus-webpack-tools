@@ -77,22 +77,23 @@ class Command(BaseCommand):
             os.mkdir(template_folder)
             self.stdout.write(self.style.WARNING(f"Folder '{template_folder}' created"))
 
-        for template in templates:
+        if templates is not None:
+            for template in templates:
 
-            if not template.endswith('.html'):
-                template = f'{template}.html'
+                if not template.endswith('.html'):
+                    template = f'{template}.html'
 
-            file_path = os.path.join(template_folder, f'{template}')
+                file_path = os.path.join(template_folder, f'{template}')
 
-            if os.path.exists(file_path):
-                self.stdout.write(
-                    self.style.WARNING(f'Template {template} already exists, in {file_path}, skipping...'))
-                continue
+                if os.path.exists(file_path):
+                    self.stdout.write(
+                        self.style.WARNING(f'Template {template} already exists, in {file_path}, skipping...'))
+                    continue
 
-            # Create file from template
-            with open(file_path, 'a') as file:
-                file.write(render_to_string('webpack_tools/template.html', {"name": template, "controllers": controllers}))
-            self.stdout.write(self.style.SUCCESS(f'Template {template} successfully created at {file_path}'))
+                # Create file from template
+                with open(file_path, 'a') as file:
+                    file.write(render_to_string('webpack_tools/template.html', {"name": template, "controllers": controllers}))
+                self.stdout.write(self.style.SUCCESS(f'Template {template} successfully created at {file_path}'))
 
         self.stdout.write(self.style.SUCCESS('Stimulus setup complete. After building webpack you should be able to '
                                              'use stimulus!'))

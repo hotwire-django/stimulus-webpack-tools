@@ -105,6 +105,16 @@ Now, just take the stub template, integrate it in a view, wire up an url and... 
 
 Note: After changes in your controllers, dont forget to call `python manage.py webpack --bundle` to recreate the bundled asset.
 
+# Release Notes
+
+## Release 0.1.1
+
+* Fixed a bug where `stimulus` only works with `--templates` option.
+
+## Release 0.1.0
+
+* Initial Release
+
 # Community and Discussion
 
 Please feel free to join the project on github: https://github.com/hotwire-django/stimulus-webpack-tools
