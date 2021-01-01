@@ -1,0 +1,18 @@
+{% verbatim %}{% load static %}{% endverbatim %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ template }}</title>
+
+    <script src="https://unpkg.com/stimulus@2.0.0/dist/stimulus.umd.js"></script>
+    <script src="{% verbatim %}{% static 'js/application.js' %}{% endverbatim %}"></script>
+</head>
+<body>
+    {% for controller in controllers %}
+        <div data-controller="{{ controller }}">
+            I host controller {{ controller }}
+        </div>
+    {% endfor %}
+</body>
+</html>
