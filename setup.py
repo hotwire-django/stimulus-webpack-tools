@@ -16,7 +16,7 @@ long_description = (here / 'README.md').read_text(encoding='utf-8')
 
 setup(
     name='webpack-tools',
-    version='0.1.1',
+    version='0.2.0',
     description='Django Management Commands for using webpack (and stimulus)',
     long_description=long_description,
     long_description_content_type='text/markdown',

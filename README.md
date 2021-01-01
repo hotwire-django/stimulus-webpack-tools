@@ -105,7 +105,26 @@ Now, just take the stub template, integrate it in a view, wire up an url and... 
 
 Note: After changes in your controllers, dont forget to call `python manage.py webpack --bundle` to recreate the bundled asset.
 
+# Installing Controllers from other Apps
+
+If one app defines a Controller (from the structure defines above) and it should be added to an entrypoint in another app, one can use the `install_controller` command.
+The Syntax is
+
+```
+python manage.py install_controller <target-app> <source-app> <controller-name>
+```
+
+If you have two apps `apps/demo` and `apps/demo2` and want to install athe controller `Mycontroller` from `apps/demo/javascript/controllers/mycontroller_controller.js` into `apps/demo2`s entrypoint (which is `apps/demo2/javascript/application.js`) then you have to use the command
+
+```
+python manage.py install_controller apps.demo2 apps.demo mycontroller
+```
+
 # Release Notes
+
+## Release 0.2.0
+
+* Added the `install_controller` command
 
 ## Release 0.1.1
 
