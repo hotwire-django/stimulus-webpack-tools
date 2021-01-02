@@ -83,10 +83,6 @@ const config = {
     cache: false,
     resolve: {
         preferRelative: true,
-        alias: {
-            "jquery": "blackstone-ui/helpers/backbone/jquery-shim",
-            "bui": "blackstone-ui"
-        }
     },
     module: {
         rules: [
