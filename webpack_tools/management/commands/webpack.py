@@ -8,6 +8,10 @@ from django.template.loader import render_to_string
 class Command(BaseCommand):
     help = 'Runs the webpack build...'
 
+    packages = [
+        "stimulus"
+    ]
+
     dev_packages = [
         "webpack",
         "webpack-cli",
@@ -72,7 +76,7 @@ class Command(BaseCommand):
 
         if options['loop']:
             results = {}
-            for package in self.dev_packages:
+            for package in self.dev_packages + self.packages:
                 self.stdout.write(f'Installing package {package}')
                 response = subprocess.run(["npm", "install", "--save-dev", package])
                 results.update({package: response})
@@ -85,6 +89,6 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.WARNING(f'There were errors when installing packages...'))
         else:
             self.stdout.write(f'Installing all packages at once {self.dev_packages}')
-            response = subprocess.run(["npm", "install", "--save-dev"] +  self.dev_packages)
+            response = subprocess.run(["npm", "install", "--save-dev"] + (self.dev_packages + self.packages))
             if response.returncode != 0:
                 self.stdout.write(self.style.WARNING(f'There were errors when installing packages...'))
