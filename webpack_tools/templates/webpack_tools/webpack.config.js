@@ -1,6 +1,8 @@
+// This File was automatically initialized by stimulus-webpack-tools
 const webpack = require('webpack');
 const glob = require('glob');
 const TerserPlugin = require('terser-webpack-plugin')
+const path = require('path');
 
 
 let globOptions = {
@@ -11,13 +13,13 @@ let entryFiles = glob.sync("**/javascript/*.js", globOptions)
 
 let entryObj = {}
 
-entryFiles.forEach(function(file){
-    if (file.includes('.')) {
-        let parts = file.split('/')
-        let path = parts.pop()
-        let fileName = path.split('.')[0];
-        entryObj[fileName] = `./${file}`;
-    }
+entryFiles.forEach(function (file) {
+    let sep = path.sep
+    let parts = file.split(sep)
+    // General approach
+    // output will be app-root/static/{app-name}/js/{entrypoint-filename}
+    let fileName = parts.slice(0, -2).join(sep) + `${sep}static${sep}` + parts[parts.length - 3] + `${sep}js${sep}` + parts[parts.length - 1]
+    entryObj[fileName] = `.${sep}${file}`;
 })
 
 const optimize = {
@@ -58,11 +60,11 @@ const babel = {
         }
     },
     plugins: [
-        [ "@babel/plugin-proposal-decorators", {
+        ["@babel/plugin-proposal-decorators", {
             legacy: true,
-        } ],
-        [ "@babel/plugin-proposal-class-properties", { "loose": true } ],
-        [ "@babel/plugin-transform-runtime"]
+        }],
+        ["@babel/plugin-proposal-class-properties", {"loose": true}],
+        ["@babel/plugin-transform-runtime"]
     ]
 }
 
@@ -71,20 +73,16 @@ const config = {
     mode: mode,
     entry: entryObj,
     output: {
-        path: __dirname + '/static/js',
-        filename: '[name].js'
+        path: __dirname,
+        filename: '[name]'
     },
     target: "browserslist:last 2 Chrome versions",
     // NOTE: Webpack 5 has major architectural improvements regarding targets and different kinds of imports, but they're not fully implemented yet. The following line is a workaround and should be removed when the features are complete. https://webpack.js.org/blog/2020-10-10-webpack-5-release/#improved-target-option
-    externalsPresets: { web: false, webAsync: true },
+    externalsPresets: {web: false, webAsync: true},
     optimization: optimize[mode],
     cache: false,
     resolve: {
         preferRelative: true,
-        alias: {
-            "jquery": "blackstone-ui/helpers/backbone/jquery-shim",
-            "bui": "blackstone-ui"
-        }
     },
     module: {
         rules: [
