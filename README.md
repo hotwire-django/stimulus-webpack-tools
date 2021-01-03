@@ -1,6 +1,6 @@
 # Stimulus and Webpack Tools for Django
 
-Make the usage of stimulus and webpack in Django fun (again)! 
+Make the usage of stimulus and webpack in Django fun (again)!
 
 ## Introduction
 
@@ -23,10 +23,10 @@ and add it as `apps.demo` in your settings.
 
 ### Installation
 
-Next, install the `webpack-tools` module in your python runtime, e.g. using 
+Next, install the `webpack-tools` module in your python runtime, e.g. using
 
 ```
-pip install webpack-tools 
+pip install webpack-tools
 ```
 
 or via your `requirements.txt`.
@@ -73,10 +73,10 @@ You can give zero or more controllers to be created. Those should be named all l
 
 The plugin will then
 
-* Create a folder `/javascript` in your app root folder (if it doesnt already exist).
-* Create an `application.js` with sensible defaults (auto detection of controllers during webpack execution) if it doesnt exist.
-* Create a subfolder `/controllers` (if it doestn exist)
-* Create a stub for each controller named `{controller}_controller.js` (the default convention, in stimulus).
+* Create a folder `/javascript` in your app root folder (if it doesn't already exist).
+* Create an `application.js` with sensible defaults (auto detection of controllers during webpack execution) if it doesn't exist.
+* Create a subfolder `/controllers` (if it doesn't exist)
+* Create a stub for each controller named `{controller}_controller.js` (the default convention in stimulus).
 
 Optionally, you can also create one (or more) view template which has the proper setup to get started even quicker.
 For that, just append `--templates {template1} .. {templateN}` to the command above, i.e.
@@ -89,8 +89,7 @@ This will then create the respective templates in your apps `/template` folder a
 
 ## Bundling with webpack
 
-Now its the right time to come back to `webpack`s `--bundle` command.
-So just execute
+Now it's the right time to come back to `webpack`s `--bundle` command.
 
 ```
 python manage.py webpack --bundle
@@ -113,13 +112,12 @@ There are two approaches. One is that the other modules provide npm packages and
 
 The `install_controller` helps you in the second case and does all necessary changes in your `application.js` file.
 If one app defines a Controller (from the structure defines above) and it should be added to an entrypoint in another app, one can use the `install_controller` command.
-The Syntax is
 
 ```
 python manage.py install_controller <target-app> <source-app> <controller-name>
 ```
 
-If you have two apps `apps/demo` and `apps/demo2` and want to install athe controller `Mycontroller` from `apps/demo/javascript/controllers/mycontroller_controller.js` into `apps/demo2`s entrypoint (which is `apps/demo2/javascript/application.js`) then you have to use the command
+If you have two apps `apps/demo` and `apps/demo2` and want to install the controller `Mycontroller` from `apps/demo/javascript/controllers/mycontroller_controller.js` into `apps/demo2`s entrypoint (which is `apps/demo2/javascript/application.js`) then you have to use the command
 
 ```
 python manage.py install_controller apps.demo2 apps.demo mycontroller
