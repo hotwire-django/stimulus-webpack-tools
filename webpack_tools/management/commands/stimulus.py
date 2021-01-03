@@ -3,7 +3,6 @@ import os
 from importlib import import_module
 
 from django.core.management.base import BaseCommand, CommandError
-from django.core.management.templates import TemplateCommand
 from django.template.loader import render_to_string
 
 

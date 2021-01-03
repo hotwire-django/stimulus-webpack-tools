@@ -1,11 +1,15 @@
+import logging
 import subprocess
-import os
 from importlib import import_module
+import os
 from os.path import dirname
 
 from django.core.management.base import BaseCommand, CommandError
 from django.core.management.templates import TemplateCommand
 from django.template.loader import render_to_string
+
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -26,8 +30,8 @@ class Command(BaseCommand):
         to_app_root = self.validate_name(to_app)
         from_app_root = self.validate_name(from_app)
 
-        # print(f'Root To: {to_app_root}')
-        # print(f'Root From: {from_app_root}')
+        logger.debug(f'Root To: {to_app_root}')
+        logger.debug(f'Root From: {from_app_root}')
 
         # Count how many paths you have to go upward
 
@@ -37,7 +41,7 @@ class Command(BaseCommand):
         controller_path = os.path.join(js_path_from, f'{controller}_controller.js')
         entrypoint_path = os.path.join(js_path_to, 'application.js')
 
-        # print(f'Entrypoint: {entrypoint_path}')
+        logger.debug(f'Entrypoint: {entrypoint_path}')
 
         # Check if both exist
         if not os.path.exists(js_path_to):
@@ -49,12 +53,12 @@ class Command(BaseCommand):
         if not os.path.exists(controller_path):
             raise CommandError(f"Controller {controller} was not found for in source app (expected '{controller_path}')")
 
-        # print(f'Controller root To: {js_path_to}')
-        # print(f'Controller root From: {controller_path}')
+        logger.debug(f'Controller root To: {js_path_to}')
+        logger.debug(f'Controller root From: {controller_path}')
 
         common_prefix = os.path.commonpath([js_path_to, controller_path])
 
-        # print(f'Common: {common_prefix}')
+        logger.debug(f'Common: {common_prefix}')
 
         # Check how many we have to go down, to go to common path
         mydir = js_path_to
@@ -63,27 +67,27 @@ class Command(BaseCommand):
             mydir = dirname(mydir)
             level += 1
 
-        # print(f'We need to go {level} dirs up!')
+        logger.debug(f'We need to go {level} dirs up!')
 
         relative_path = os.path.relpath(controller_path, start=common_prefix)
 
-        # print(f'Relative Segment is: {relative_path}')
+        logger.debug(f'Relative Segment is: {relative_path}')
 
         subpaths = ['..' for i in range(0, level)]
         subpath = os.path.join('./', *subpaths)
 
-        # print(f'Subpath: {subpath}')
+        logger.debug(f'Subpath: {subpath}')
 
         import_path = os.path.join(subpath, relative_path)
 
-        # print(f'Import Path: {import_path}')
+        logger.debug(f'Import Path: {import_path}')
 
         controller_identifier = f'{controller.title()}Controller'
 
         import_statement = f'import {controller_identifier} from "{import_path.replace(".js", "")}"'
         register_statement = f'application.register("{controller}", {controller_identifier})'
 
-        # print(import_statement)
+        logger.debug(import_statement)
 
         self.stdout.write(f" + Adding Import Statement '{import_statement}' to {entrypoint_path}")
         self.stdout.write(f" + Adding Register Statement '{register_statement}' to {entrypoint_path}")
@@ -121,7 +125,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(f'Controller from {controller_path} was successfully imported in entrypoint {entrypoint_path}!'))
 
 
-# Copied from TemplateCommand
+    # Copied from TemplateCommand
     def validate_name(self, name):
         if name is None:
             raise CommandError('you must provide an app name')

@@ -1,7 +1,7 @@
 import subprocess
 import os
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.template.loader import render_to_string
 
 
@@ -57,13 +57,13 @@ class Command(BaseCommand):
 
     def npm_init(self, *args, **options):
         if os.path.exists('package.json'):
-            self.stdout.write(self.style.ERROR('Existing package.json already found, dont initialising npm!'))
+            self.stdout.write(self.style.ERROR('Existing package.json already found, skipping initialising package.json!'))
             return
         response = subprocess.run(["npm", "init", "-y"])
         if response.returncode == 0:
             self.stdout.write(self.style.SUCCESS('package.json was created sucessfully!'))
         else:
-            self.stdout.write(self.style.WARNING('Unnable to init npm, see above for more details!'))
+            self.stdout.write(self.style.WARNING('Unable to init npm, see above for more details!'))
 
     def npm_install_dev_dependencies(self, *args, **options):
         if not os.path.exists('package.json'):
