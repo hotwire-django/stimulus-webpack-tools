@@ -13,6 +13,7 @@ class Command(BaseCommand):
     ]
 
     dev_packages = [
+        "glob",
         "webpack",
         "webpack-cli",
         "webpack-bundle-analyzer",
